@@ -1,3 +1,6 @@
+#플러그를 빼는데 가장 적은 회수로.
+#뺄 때 가장 늦게 사용하는 친구를 뺌
+
 N, K = map(int,input().split())
 todo = list(map(int,input().split()))
 
