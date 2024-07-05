@@ -27,7 +27,7 @@ graph = []
 visited = [[0]*(N) for _ in range(N)]
 
 for i in range(N):
-    graph.append(list(input().strip()))
+    graph.append(list(input()))
 
 count = 1
 
