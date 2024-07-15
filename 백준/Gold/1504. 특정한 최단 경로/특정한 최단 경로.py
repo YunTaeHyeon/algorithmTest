@@ -1,33 +1,31 @@
-import heapq
 import sys
-sys.setrecursionlimit(150000)
+import heapq
 input = sys.stdin.readline
+sys.setrecursionlimit(150000)
+INF = int(1e9)
 
 def dijkstra(start):
     distance = [INF] * (N+1)
-
+    h = []
     distance[start] = 0
-    q=[]
+    
+    heapq.heappush(h, (start, 0))
 
-    heapq.heappush(q, (start, 0))
-
-    while q:
-        now, dist = heapq.heappop(q)
+    while h:
+        now,dist = heapq.heappop(h)
 
         if dist > distance[now]:
             continue
-
+        
         for i in graph[now]:
             cost = dist + i[1]
-            
+
             if cost < distance[i[0]]:
                 distance[i[0]] = cost
-                heapq.heappush(q, (i[0], cost))
+                heapq.heappush(h, (i[0],cost))
 
     return distance
 
-
-INF = int(1e9)
 
 N, E = map(int,input().split())
 
@@ -38,17 +36,20 @@ for _ in range(E):
     graph[a].append((b,c))
     graph[b].append((a,c))
 
-na,nb = map(int,input().split())
+x,y = map(int,input().split())
+
+# 1에서 x로 x에서 y로 y에서 끝까지
+# 1에서 y로 y에서 x로 x에서 끝까지
 
 d1 = dijkstra(1)
-v1d = dijkstra(na)
-v2d = dijkstra(nb)
+nx1 = dijkstra(x)
+ny1 = dijkstra(y)
 
-# 시작 -> na -> nb -> 끝
-# 시작 -> nb -> na -> 끝 중에서 최솟값 없으면 -1
-v1_path = d1[na] + v1d[nb] + v2d[N]
-v2_path = d1[nb] + v2d[na] + v1d[N]
+answer = min(d1[x] + nx1[y] + ny1[N], d1[y] + ny1[x] + nx1[N])
 
-result = min(v1_path, v2_path)
+if answer < INF:
+    print(answer)
+else:
+    print(-1)
 
-print(result if result < INF else -1)
+
